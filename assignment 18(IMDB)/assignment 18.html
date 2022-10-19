@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Fatemeh Rashidi">
+        <meta name="keywords" content="movie, cinema, serial, series, ...">
+        <meta name="description" content="movies-connecting to database">
+        <meta name="viewport" content="width=device-width, scale=1.0">
+        <link type="text/css" rel="stylesheet" href="css/all.css">
+        <link type="text/css" rel="stylesheet" href="css/bootstrap.rtl.css">
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+    </head>
+
+
+    <body>
+        <div class="container">
+          <form class="">
+            <label for="select-tag" class="form-label">Choose your favorite movie: </label>
+            <select name="select-tag" id="select" class="form-select" onchange="display_info(this)"></select>
+          </form>
+      
+          <div id="info-div" class="card" style="visibility: hidden;">
+            <span class="bold font-weight-bold">Year: <span id="year" class="normal"></span></span>
+            <br>
+            <span class="bold">Directed By: <span id="director" class="normal"></span></span>
+            <br>
+            <span class="bold">Release Date: <span id="release" class="normal"></span></span>
+            <br>
+            <span class="bold">Genres: <span id="genres" class="normal"></span></span>
+            <br>
+            <span class="bold">Rating: <span id="rating" class="normal"></span></span>
+            <br>
+            <span class="bold">Rank: <span id="rank" class="normal"></span></span>
+            <br>
+            <span class="bold">Plot: <span id="plot" class="normal"></span></span>
+            <br>
+            <span class="bold">Stars: <span id="actors" class="normal"></span></span>
+            <br>
+            <img id="image">
+          </div>
+        </div>
+      
+        <script>
+          var all_data;
+      
+          function display_title() {
+      
+            var select_tag = document.getElementById("select");
+            for (let i = 0; i < all_data.length; i++) {
+              var option = document.createElement("OPTION");
+              option.innerHTML = all_data[i].title + "(" + all_data[i].year + ")";
+              option.value = all_data[i].id;
+              select_tag.appendChild(option);
+            }
+          }
+      
+          async function read_data(path) {
+            var x = await fetch(path);
+            var y = await x.text();
+            all_data = JSON.parse(y);
+            for (let i = 0; i < all_data.length; i++) {
+              all_data[i].id = i + 1;
+            }
+            display_title();
+            console.log(all_data);
+          }
+      
+          function return_str(str) {
+            var new_str = "";
+            for (let i = 0 ; i < str.length ; i++) {
+                  if (str[i] != "[" && str[i] != "]" && str[i] != "\"") {
+                    new_str += str[i];
+                  }
+                  if (str[i] == ",") {
+                    new_str += " ";
+                  }
+            }
+            return new_str
+          }
+
+          function display_info(select) {
+            var movie = select.selectedOptions[0];
+            var div = document.getElementById("info-div");
+            //div.innerHTML = "";
+
+            document.getElementById("year").innerHTML = "";
+            document.getElementById("director").innerHTML = "";
+            document.getElementById("release").innerHTML = "";
+            document.getElementById("genres").innerHTML = "";
+            document.getElementById("rating").innerHTML = "";
+            document.getElementById("plot").innerHTML = "";
+            document.getElementById("rank").innerHTML = "";
+            document.getElementById("actors").innerHTML = "";
+
+            for (let i = 0 ; i < all_data.length ; i++) {
+              var name_year = all_data[i].title + "(" + all_data[i].year + ")";
+              if (name_year == movie.text) {
+                var movie_title = document.createElement("H4");
+                // var movie_year = document.createElement("P");
+
+                // var movie_directors = document.createElement("P");
+                // var movie_release_date = document.createElement("P");
+                // var movie_rating = document.createElement("P");
+                // var movie_genres = document.createElement("P");
+                // var movie_rating = document.createElement("P");
+                // var movie_img = document.createElement("IMG");
+                // var movie_plot = document.createElement("P");
+                // var movie_rank = document.createElement("P");
+
+
+                // var movie_actors = document.createElement("P");
+                
+
+                movie_title.innerHTML = all_data[i].title;
+                // movie_year.innerHTML  = "Year: " + all_data[i].year;
+                
+                // movie_directors.innerHTML = "Directed By: " + all_data[i].info.directors;
+                // // movie_directors.innerHTML = return_str(JSON.stringify(all_data[i].info.directors));
+                // movie_release_date.innerHTML = "Release Date: " + all_data[i].info.release_date;
+                // movie_genres.innerHTML = "Genres: " + all_data[i].info.genres;
+                // movie_rating.innerHTML = "Rate: " + all_data[i].info.rating;
+                // movie_img.src = all_data[i].info.image_url;
+                // movie_plot.innerHTML = "Plot: " + all_data[i].info.plot;
+                // movie_rank.innerHTML = "Rank: " + all_data[i].info.rank;
+                // movie_actors.innerHTML = "Actors: " + all_data[i].info.actors;
+
+                document.getElementById("year").innerHTML += all_data[i].year;
+                document.getElementById("director").innerHTML += all_data[i].info.directors;
+                document.getElementById("release").innerHTML += all_data[i].info.release_date.substring(0, 10);
+                document.getElementById("genres").innerHTML += all_data[i].info.genres;
+                document.getElementById("rating").innerHTML += all_data[i].info.rating;
+                document.getElementById("plot").innerHTML += all_data[i].info.plot;
+                document.getElementById("rank").innerHTML += all_data[i].info.rank;
+                document.getElementById("image").src = all_data[i].info.image_url;
+                document.getElementById("actors").innerHTML = all_data[i].info.actors;
+
+                // document.getElementById("year").innerHTML += all_data[i].year;
+
+
+
+                // movie_year.className
+
+                div.className = "text-bg-warning p-3";
+
+                // div.appendChild(movie_title);
+                // div.appendChild(movie_year);
+                // div.appendChild(movie_directors);
+                // div.appendChild(movie_release_date);
+                // div.appendChild(movie_genres);
+                // div.appendChild(movie_rating);
+                // div.appendChild(movie_img);
+                // div.appendChild(movie_plot);
+                // div.appendChild(movie_rank);
+                // div.appendChild(movie_actors);
+                div.style.visibility = "visible";
+              }
+
+
+
+
+
+              // if (all_data[i].title == movie.text) {
+
+              //   var title = document.createElement("H3");
+              //   var directors_tag = document.createElement("p");
+              //   var year_tag = document.createElement("p");
+              //   // var actors_tag = document.createElement("p");
+
+              //   title.innerHTML = movie.text + "(" + all_data[i].year + ")";
+              //   // p.innerHTML = all_data[movie.index];
+              //   var directors = JSON.stringify(all_data[i].info.directors);
+              //   // var actors = JSON.stringify(all_data[i].actors);
+              //   var year =  JSON.stringify(all_data[i].year);
+              //   var directors_str = "";
+              //   // var actors_str = "";
+              //   return_str(directors, directors_str);
+              //   console.log(directors_str);
+              //   // return_str(actors, actors_str);
+                
+              //   directors_tag.innerHTML = directors_str; //all_data[i].info;
+              //   year_tag.innerHTML = year;
+              //   // actors_tag.innerHTML = actors_str;
+              //   div.appendChild(title);
+              //   div.appendChild(directors_tag);
+              //   div.appendChild(year_tag);
+              //   // div.appendChild(actors_tag);
+
+              //   // var myJSON = JSON.stringify(all_data[i].info.directors);
+              //   // localStorage.setItem("testJSON", myJSON);
+
+              //   // // Retrieving data:
+              //   // let text = localStorage.getItem("testJSON");
+              //   // let obj = JSON.parse(text);
+              //   // document.getElementById("p").innerHTML = obj.directors;
+              // }
+
+            }
+          }
+
+          //   var title = document.createElement("H3");
+          //   var p = document.createElement("P");
+          //   title.innerHTML = movie.text;
+          //   // p.innerHTML = all_data[movie.index];
+          //   p.innerHTML = JSON.stringify(all_data[movie.index].info.director);
+          //   div.appendChild(title);
+          //   div.appendChild(p);
+          // }
+          read_data("https://raw.githubusercontent.com/farzadForoozanfar/Website-design-programming/main/Assignment18(IMDB)/moviedata.json");
+        </script>
+         
+         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+         integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+         crossorigin="anonymous"></script>
+        <script src="js/bootstrap.js"></script>
+      </body>
+</html>

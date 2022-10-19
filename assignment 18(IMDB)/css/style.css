@@ -1,0 +1,15 @@
+body {
+    box-sizing: border-box;
+}
+
+m-3 {
+    margin: 20px;
+}
+
+.bold {
+    font-weight: bolder;
+}
+
+.normal {
+    font-weight: normal;
+}
